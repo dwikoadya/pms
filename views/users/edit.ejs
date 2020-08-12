@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Users</title>
+    <% include ../partials/headers %>
+</head>
+
+<body style="font-family: Arial, Helvetica, sans-serif;">
+    <% include ../partials/navbar %>
+
+    <h1 style="margin-top: 20px;">Add Users</h1>
+    <hr>
+
+    <form method="POST">
+
+        <div class="form-group row">
+            <label for="name" class="col-sm-2 col-form-label">User ID</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="id" placeholder="User ID" name="id" value="<%= sql.userid %>" disabled>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="name" class="col-sm-2 col-form-label">First Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="firstName" placeholder="First Name" name="firstName" value="<%= sql.firstname %>" required>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="name" class="col-sm-2 col-form-label">Last Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="lastName" placeholder="Last Name" name="lastName" value="<%= sql.lastname%>" required>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="name" class="col-sm-2 col-form-label">Email</label>
+            <div class="col-sm-10">
+                <input type="email" class="form-control" id="email" placeholder="Email" name="email" value="<%= sql.email %>" disabled>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="name" class="col-sm-2 col-form-label">Password</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="password" placeholder="Password" name="password" required>
+            </div>
+        </div>
+
+        <fieldset class="form-group">
+            <div class="row">
+                <legend class="col-form-label col-sm-2 pt-0">Position</legend>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="position" id="manager" value="Manager" <%= sql.position == 'Manager' ? 'checked' : '' %>>
+                        <label class="form-check-label" for="manager">
+                            Manager
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="position" id="qa" value="Quality Assurance" <%= sql.position == 'Quality Assurance' ? 'checked' : '' %>>
+                        <label class="form-check-label" for="qa">
+                            Quality Assurance
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="position" id="dev"
+                            value="Software Developer" <%= sql.position == 'Software Developer' ? 'checked' : '' %>>
+                        <label class="form-check-label" for="dev">
+                            Software Developer
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="form-group">
+            <div class="row">
+                <legend class="col-form-label col-sm-2 pt-0">Type Job</legend>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="type" id="full" value="FullTime" <%= sql.type == 'FullTime' ? 'checked' : '' %>>
+                        <label class="form-check-label" for="full">
+                            Full Time
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="type" id="part" value="PartTime" <%= sql.type == 'PartTime' ? 'checked' : '' %>>
+                        <label class="form-check-label" for="part">
+                            Part Time
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="form-group">
+            <div class="row">
+                <legend class="col-form-label col-sm-2 pt-0">Role</legend>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="role" id="admin" value="admin" <%= sql.role == 'admin' ? 'checked' : '' %>>
+                        <label class="form-check-label" for="admin">
+                            Admin
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="role" id="user" value="user" <%= sql.role == 'user' ? 'checked' : '' %>>
+                        <label class="form-check-label" for="user">
+                            User
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="form-group row">
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+</body>
+
+</html>

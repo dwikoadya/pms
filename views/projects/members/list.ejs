@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PMS Members</title>
+    <!-- <link rel="stylesheet" href=""> -->
+    <% include ../../partials/headers %>
+</head>
+
+<body style="font-family: Arial, Helvetica, sans-serif;">
+    <header>
+        <% include ../../partials/navbar %>
+    </header>
+    <div class="d-flex" id="wrapper">
+        <% include ../../partials/sidebar %>
+        <div class="container-fluid">
+            <h1 style="margin-top: 20px;">Members</h1>
+            <hr>
+            <h2 style="font-family: Arial, Helvetica, sans-serif;">Filters</h2>
+
+            <!-- ========================================Filters===================================== -->
+
+            <form method="GET" id="filterForm">
+                <input type="hidden" name="page" value="1">
+                <div class="row">
+                    <div class="col" style="margin-left: 20px;">
+                        <div class="custom-control custom-checkbox mb-3" style="margin-top: 7px;">
+                            <input class="custom-control-input" type="checkbox" id="id" name="cekid">
+                            <label class="custom-control-label" for="id">
+                                ID
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-10">
+                        <div class="form-group" style="margin-right: 20px;">
+                            <input type="text" class="form-control" id="id" placeholder="ID" name="memberId">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col" style="margin-left: 20px;">
+                        <div class="custom-control custom-checkbox mb-3" style="margin-top: 7px;">
+                            <input class="custom-control-input" type="checkbox" id="name" name="cekname">
+                            <label class="custom-control-label" for="name">
+                                Name
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-10">
+                        <div class="form-group" style="margin-right: 20px;">
+                            <input type="text" class="form-control" id="name" placeholder="Name" name="memberName">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col" style="margin-left: 20px" ;>
+                        <div class="custom-control custom-checkbox mb-3" style="margin-top: 7px;">
+                            <input class="custom-control-input" type="checkbox" id="cekposition" name="cekposition">
+                            <label class="custom-control-label" for="cekposition">
+                                Position
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-10">
+                        <div class="form-group" style="margin-right: 20px;">
+                            <select id="position" class="custom-select custom-select" name="position">
+                                <option selected disabled>Choose the position ...</option>
+                                <option value="Manager">Manager</option>
+                                <option value="Quality Assurance">Quality Assurance</option>
+                                <option value="Software Developer">Software Developer</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container" style="margin-left: 20px;">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                    <a href="/projects/<%= id %>/members">
+                        <button type="button" class="btn btn-primary" id="reset">Reset</button>
+                    </a>
+                </div>
+            </form>
+            <div>
+                <br><br><br>
+                <h2 style="font-family: Arial, Helvetica, sans-serif;">Options</h2>
+            </div>
+
+            <!-- ========================================Option====================================== -->
+            <form action="/projects/<%= id %>/members/option" method="POST">
+                <div class="form-group row">
+                    <div class="col-sm-2">Columns</div>
+                    <div class="col-sm-10">
+
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="optid" name="optid" value="true"
+                                <%= option.id ? `checked` : `` %>>
+                            <label class="form-check-label" for="optid">
+                                ID
+                            </label>
+                        </div>
+
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="optname" name="optname" value="true"
+                                <%= option.name ? `checked` : `` %>>
+                            <label class="form-check-label" for="optname">
+                                Name
+                            </label>
+                        </div>
+
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="optposition" name="optposition"
+                                value="true" <%= option.position ? `checked` : `` %>>
+                            <label class="form-check-label" for="optposition">
+                                Position
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary">Apply</button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- =========================================List====================================== -->
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th <%= option.id ? `` : `hidden` %>>ID</th>
+                        <th <%= option.name ? `` : `hidden` %>>Name</th>
+                        <th <%= option.position ? `` : `hidden` %>>Position</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%members.forEach(element =>{%>
+                    <tr>
+                        <td <%= option.id ? `` : `hidden` %>><%= element.id %></td>
+                        <td <%= option.name ? `` : `hidden` %>><%= element.fullname %></td>
+                        <td <%= option.position ? `` : `hidden` %>><%= element.role %></td>
+                        <td>
+                            <a href="/projects/<%= id %>/members/<%= element.id %>">
+                                <button class="btn btn-success">Edit</button>
+                            </a>
+                            <a href="/projects/<%= id%>/members/<%= element.id %>/delete">
+                                <button class="btn btn-danger"
+                                    onclick="return confirm('Confirm to Delete?');">Delete</button>
+                            </a>
+                        </td>
+                    </tr>
+                    <%})%>
+                </tbody>
+            </table>
+            <!-- ===========================================Pagination================================== -->
+            <div>
+                <nav aria-label="Page navigation">
+                  <ul class="pagination">
+                    <li class="page-item <%= page==1 ? 'disabled' : '' %>"><a class="page-link"
+                        href="/projects<%= pageUrl.replace(`?page=${parseInt(page)}`,`?page=${ parseInt(page) - 1}`) %>">Previous</a>
+                    </li>
+                    <%for (let i=1; i <= pages; i++ ){%>
+                    <li class="page-item <%= (i == page) ? 'active' : '' %> "><a class="page-link"
+                        href="/projects<%= pageUrl.replace(`?page=${parseInt(page)}`,`?page=${i}`) %>"><%= i %></a>
+                    </li>
+                    <%}%>
+                              <li class="page-item <%= page==pages ? 'disabled' : '' %>"> <a class="page-link"
+                      href="/projects<%= pageUrl.replace(`?page=${parseInt(page)}`,`?page=${parseInt(page) + 1}`) %>">Next</a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            <a href="/projects/<%= id %>/members/add">
+                <button class="btn btn-primary">Add</button>
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>

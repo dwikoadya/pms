@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PMS Overview</title>
+  <% include ../../partials/headers %>
+</head>
+
+<body style="font-family: Arial, Helvetica, sans-serif;"">
+  <% include ../../partials/navbar %>
+  <div class="d-flex" id="wrapper">
+    <% include ../../partials/sidebar %>
+    <div class="container-fluid">
+      <h2 style="margin-top: 20px;">Overview</h2>
+      <hr>
+      <h2> <%= data.name %> </h2>
+      <div class="card" style="padding: 20px;">
+        <p>Issue Tracking</p>
+        <ul>
+          <li>Bug: <%= bugOpen %> Open/<%= bugTotal %></li>
+          <li>Feature: <%= featureOpen %> Open/<%= featureTotal %></li>
+          <li>Support: <%= supportOpen %> Open/<%= supportTotal %></li>
+        </ul>
+        <div class="card-body">
+        </div>
+      </div>
+      <div class="card" style="padding: 20px; margin-top: 20px;">
+        <p>Members</p>
+        <ul>
+          <% members.forEach((element) => {%>
+            <li><%= element.firstname%> <%= element.lastname %></li>
+            <%})%>
+          </ul>
+          <div class="card-body">
+          </div>
+        </div>
+      </div>
+    </div>
+    </body>
+    
+    </html>

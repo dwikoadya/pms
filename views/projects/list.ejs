@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>PMS Projects</title>
+  <!-- <link rel="stylesheet" href=""> -->
+  <% include ../partials/headers %>
+</head>
+
+<body style="font-family: Arial, Helvetica, sans-serif;">
+  <header>
+    <% include ../partials/navbar %>
+  </header>
+
+  <h1>Projects</h1>
+  <hr>
+  <h2 style="font-family: Arial, Helvetica, sans-serif;">Filters</h2>
+
+  <!-- ========================================Filters===================================== -->
+
+  <form method="GET" id="filterForm">
+    <input type="hidden" name="page" value="1">
+    <div class="row">
+      <div class="col" style="margin-left: 20px;">
+        <div class="custom-control custom-checkbox mb-3" style="margin-top: 7px;">
+          <input class="custom-control-input" type="checkbox" id="id" name="cekid">
+          <label class="custom-control-label" for="id">
+            ID
+          </label>
+        </div>
+      </div>
+      <div class="col-10">
+        <div class="form-group" style="margin-right: 20px;">
+          <input type="text" class="form-control" id="id" placeholder="ID" name="projectId">
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col" style="margin-left: 20px;">
+        <div class="custom-control custom-checkbox mb-3" style="margin-top: 7px;">
+          <input class="custom-control-input" type="checkbox" id="name" name="cekname">
+          <label class="custom-control-label" for="name">
+            Name
+          </label>
+        </div>
+      </div>
+      <div class="col-10">
+        <div class="form-group" style="margin-right: 20px;">
+          <input type="text" class="form-control" id="name" placeholder="Name" name="projectName">
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col" style="margin-left: 20px" ;>
+        <div class="custom-control custom-checkbox mb-3" style="margin-top: 7px;">
+          <input class="custom-control-input" type="checkbox" id="member" name="cekmember">
+          <label class="custom-control-label" for="member">
+            Member
+          </label>
+        </div>
+      </div>
+      <div class="col-10">
+        <div class="form-group" style="margin-right: 20px;">
+          <select id="member" class="custom-select custom-select" name="member">
+            <option selected disabled>Choose the member ...</option>
+            <% users.forEach((element, index) => { %>
+            <option value="<%= element.userid %>"><%= element.fullname %></option>
+            <% }) %>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="container" style="margin-left: 20px;">
+      <button type="submit" class="btn btn-primary">Search</button>
+      <a href="/projects">
+        <button type="button" class="btn btn-primary" id="reset">Reset</button>
+      </a>
+    </div>
+  </form>
+  <div>
+    <br><br><br>
+    <h2 style="font-family: Arial, Helvetica, sans-serif;">Options</h2>
+  </div>
+
+  <!-- ========================================Option====================================== -->
+  <form action="/projects/option" method="POST">
+    <div class="form-group row">
+      <div class="col-sm-2">Columns</div>
+      <div class="col-sm-10">
+
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="cid" name="checkid" value="true"
+            <%= option.id ? `checked` : `` %>>
+          <label class="form-check-label" for="cid">
+            ID
+          </label>
+        </div>
+
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="cname" name="checkname" value="true"
+            <%= option.name ? `checked` : `` %>>
+          <label class="form-check-label" for="cname">
+            Name
+          </label>
+        </div>
+
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="cmember" name="checkmember" value="true"
+            <%= option.member ? `checked` : `` %>>
+          <label class="form-check-label" for="cmember">
+            Members
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-10">
+        <button type="submit" class="btn btn-primary">Apply</button>
+      </div>
+    </div>
+  </form>
+
+  <!-- =========================================List====================================== -->
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th <%= option.id ? `` : `hidden` %>>ID</th>
+        <th <%= option.name ? `` : `hidden` %>>Name</th>
+        <th <%= option.members ? `` : `hidden` %>>Members</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%result.forEach (item => {%>
+      <tr>
+
+        <td <%= option.id ? `` : `hidden` %>>
+        <a href="/projects/<%= item.projectid %>/overview"><%= item.projectid%></a>
+      </td>
+        <td <%= option.name ? `` : `hidden` %>><%=item.name%></td>
+        <td <%= option.members ? `` : `hidden` %>><%=item.member%></td>
+        <td>
+          <a href="/projects/edit/<%=item.projectid%>">
+            <button class="btn btn-success">Edit</button>
+          </a>
+          <a href="/projects/delete/<%=item.projectid%>" <%= login.role == 'user' ? 'hidden' : '' %>>
+            <button class="btn btn-danger" onclick="return confirm('Confirm to Delete?');">Delete</button>
+          </a>
+        </td>
+      </tr>
+      <%})%>
+    </tbody>
+  </table>
+  <!-- ===========================================Pagination================================== -->
+
+  <div>
+    <nav aria-label="Page navigation">
+      <ul class="pagination">
+        <li class="page-item <%= page==1 ? 'disabled' : '' %>"><a class="page-link"
+            href="/projects<%= url.replace(`?page=${parseInt(page)}`, `?page=${ parseInt(page) - 1}`) %>">Previous</a>
+        </li>
+        <%for (let i=1; i <= pages; i++ ){%>
+        <li class="page-item <%= (i == page) ? 'active' : '' %> "><a class="page-link"
+            href="/projects<%= url.replace(`?page=${parseInt(page)}`,`?page=${i}`) %>"><%= i %></a>
+        </li>
+        <%}%>
+                  <li class="page-item <%= page==pages ? 'disabled' : '' %>"> <a class="page-link"
+          href="/projects<%= url.replace(`?page=${parseInt(page)}`,`?page=${parseInt(page) + 1}`) %>">Next</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <a href="/projects/add">
+    <button class="btn btn-primary">Add</button>
+  </a>
+
+</body>
+
+</html>

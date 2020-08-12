@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PMS Issues</title>
+    <!-- <link rel="stylesheet" href=""> -->
+    <% include ../../partials/headers %>
+</head>
+
+<body style="font-family: Arial, Helvetica, sans-serif;">
+    <header>
+        <% include ../../partials/navbar %>
+    </header>
+    <div class="d-flex" id="wrapper">
+        <% include ../../partials/sidebar %>
+        <div class="container-fluid">
+            <h1 style="margin-top: 20px;">Issues</h1>
+            <hr>
+            <h2 style="font-family: Arial, Helvetica, sans-serif;">Filters</h2>
+
+            <!-- ========================================Filters===================================== -->
+
+            <form method="GET" id="filterForm">
+                <input type="hidden" name="page" value="1">
+                <div class="row">
+                    <div class="col" style="margin-left: 20px;">
+                        <div class="custom-control custom-checkbox mb-3" style="margin-top: 7px;">
+                            <input class="custom-control-input" type="checkbox" id="cekid" name="cekid">
+                            <label class="custom-control-label" for="cekid">
+                                ID
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-10">
+                        <div class="form-group" style="margin-right: 20px;">
+                            <input type="text" class="form-control" id="issueId" placeholder="ID" name="issueId">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col" style="margin-left: 20px;">
+                        <div class="custom-control custom-checkbox mb-3" style="margin-top: 7px;">
+                            <input class="custom-control-input" type="checkbox" id="ceksubject" name="ceksubject">
+                            <label class="custom-control-label" for="ceksubject">
+                                Subject
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-10">
+                        <div class="form-group" style="margin-right: 20px;">
+                            <input type="text" class="form-control" id="issueSubject" placeholder="Name"
+                                name="issueSubject">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col" style="margin-left: 20px" ;>
+                        <div class="custom-control custom-checkbox mb-3" style="margin-top: 7px;">
+                            <input class="custom-control-input" type="checkbox" id="cektracker" name="cektracker">
+                            <label class="custom-control-label" for="cektracker">
+                                Tracker
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-10">
+                        <div class="form-group" style="margin-right: 20px;">
+                            <select id="issueTracker" class="custom-select custom-select" name="issueTracker">
+                                <option selected disabled>Choose the Tracker ...</option>
+                                <option value="Bug">Bug</option>
+                                <option value="Feature">Feature</option>
+                                <option value="Support">Support</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container" style="margin-left: 20px;">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                    <a href="/projects/<%= id %>/issues">
+                        <button type="button" class="btn btn-primary" id="reset">Reset</button>
+                    </a>
+                </div>
+            </form>
+            <div>
+                <br><br><br>
+                <h2 style="font-family: Arial, Helvetica, sans-serif;">Options</h2>
+            </div>
+
+            <!-- ========================================Option====================================== -->
+            <form action="" method="POST">
+                <div class="form-group row">
+                    <div class="col-sm-2">Columns</div>
+                    <div class="col-sm-10">
+
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="optid" name="optid" value="true"
+                                <%= option.optid ? `checked` : ``%>>
+                            <label class="form-check-label" for="optid">
+                                ID
+                            </label>
+                        </div>
+
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="optsubject" name="optsubject"
+                                value="true" <%= option.optsubject ? `checked` : `` %>>
+                            <label class="form-check-label" for="optsubject">
+                                Subject
+                            </label>
+                        </div>
+
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="opttracker" name="opttracker"
+                                value="true" <%= option.opttracker ? `checked` : ``%>>
+                            <label class="form-check-label" for="opttracker">
+                                Tracker
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary">Apply</button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- =========================================List====================================== -->
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th <%= option.optid ? `` : `hidden` %>>ID</th>
+                        <th <%= option.optsubject ? `` : `hidden` %>>Subject</th>
+                        <th <%= option.opttracker ? `` : `hidden` %>>Tracker</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% issues.forEach(element => {%>
+                    <tr>
+                        <td <%= option.optid ? `` : `hidden` %>><%= element.issueid%></td>
+                        <td <%= option.optsubject ? `` : `hidden` %>><%= element.subject%></td>
+                        <td <%= option.opttracker ? `` : `hidden` %>><%= element.tracker%></td>
+                        <td>
+                            <a href="/projects/<%= id %>/issues/edit/<%= element.issueid%>">
+                                <button class="btn btn-success">Edit</button>
+                            </a>
+                            <a href="/projects/<%= id %>/issues/delete/<%= element.issueid%>">
+                                <button class="btn btn-danger"
+                                    onclick="return confirm('Confirm to Delete?');">Delete</button>
+                            </a>
+                        </td>
+                    </tr>
+                    <%})%>
+                </tbody>
+            </table>
+            <!-- ===========================================Pagination================================== -->
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item <%= page <= 1 ? 'disabled' : '' %>">
+                        <a class="page-link"
+                            href="/projects<%= pageUrl.replace(`page=${parseInt(page)}`, `page=${(parseInt(page) - 1)}`) %>"
+                            aria-label="Previous">
+                            Previous
+                        </a>
+                    </li>
+                    <% for (let i = 1; i <= pages; i++) { %>
+                    <li class="page-item <%= page == i ? 'active' : '' %>">
+                        <a class="page-link"
+                            href="/projects<%= pageUrl.replace(`page=${parseInt(page)}`, `page=${i}`) %>">
+                            <%= i %>
+                        </a>
+                    </li>
+                    <% } %>
+                    <li class="page-item <%= page >= pages ? 'disabled' : '' %>">
+                        <a class="page-link"
+                            href="/projects<%= pageUrl.replace(`page=${parseInt(page)}`, `page=${(parseInt(page) + 1)}`) %>"
+                            aria-label="Next">
+                            Next
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <a href="/projects/<%= id %>/issues/add">
+                <button class="btn btn-primary">Add</button>
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>

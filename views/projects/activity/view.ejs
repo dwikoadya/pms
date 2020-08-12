@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PMS Activity</title>
+  <% include ../../partials/headers %>
+</head>
+
+<body style="font-family: Arial, Helvetica, sans-serif;"">
+  <% include ../../partials/navbar %>
+  <div class=" d-flex" id="wrapper">
+  <% include ../../partials/sidebar %>
+  <div class="container-fluid">
+    <h2 style="margin-top: 20px;">Activity</h2>
+    <hr>
+    <div class="card" style="padding: 20px;">
+      <p>Activity</p>
+      <% activity.forEach(element => {%>
+      <p><%= element.dateactivity %></p>
+      <ul>
+        <li>
+          <%= element.timeactivity %> <%= element.title %>,author:<%= element.authorname %>
+        </li>
+      </ul>
+      <%})%>
+      <div class="card-body">
+      </div>
+    </div>
+  </div>
+  </div>
+</body>
+
+</html>
